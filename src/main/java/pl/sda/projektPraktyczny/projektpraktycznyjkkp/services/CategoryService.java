@@ -1,4 +1,4 @@
-package pl.sda.projektPraktyczny.services;
+package pl.sda.projektPraktyczny.projektpraktycznyjkkp.services;
 
 public class CategoryService {
 }

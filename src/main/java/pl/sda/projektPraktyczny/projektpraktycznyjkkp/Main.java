@@ -1,4 +1,4 @@
-package pl.sda.projektPraktyczny;
+package pl.sda.projektPraktyczny.projektpraktycznyjkkp;
 
 public class Main {
     public static void main(String[] args) {
