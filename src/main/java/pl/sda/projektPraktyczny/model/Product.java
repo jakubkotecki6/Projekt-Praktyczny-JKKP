@@ -1,16 +1,18 @@
 package pl.sda.projektPraktyczny.model;
 
+import java.util.Objects;
+
 public class Product {
 
     private int productId;
-    private static int lastId = 0;
+    private static int lastProductId = 0;
     private double price;
     private String name;
     private Category category;
     private int quantity;
 
     public Product(int productId, double price, String name, Category category, int quantity) {
-        this.productId = ++lastId;
+        this.productId = ++lastProductId;
 
         if (!isValidPrice(price)) {
             throw new IllegalArgumentException("Cena musi być większa od zera!");
@@ -86,5 +88,28 @@ public class Product {
 
     private boolean isValidName(String name) {
         return name != null && !name.isBlank() && name.length() > 0 && name.length() < 50;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId=" + productId +
+                ", price=" + price +
+                ", name='" + name + '\'' +
+                ", category=" + category +
+                ", quantity=" + quantity +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product product)) return false;
+        return getProductId() == product.getProductId() && Double.compare(product.getPrice(), getPrice()) == 0 && getQuantity() == product.getQuantity() && Objects.equals(getName(), product.getName()) && Objects.equals(getCategory(), product.getCategory());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getProductId(), getPrice(), getName(), getCategory(), getQuantity());
     }
 }
