@@ -24,27 +24,37 @@ public class Order {
         } else {
             throw new IllegalArgumentException("Błędna suma zamówienia!");
         }
-        if (clientName != null && !clientName.isBlank() && clientName.length() > 0 && clientName.length() < 50 && clientName.matches("\\w+\\.?")) {
+        if (isValidName(clientName)) {
             this.clientName = clientName;
         } else {
             throw new IllegalArgumentException("Błędne imię!");
         }
-        if (clientSurname != null && !clientSurname.isBlank() && clientName.length() > 0 && clientName.length() < 50 && clientName.matches("\\w+\\.?")) {
+        if (isValidName(clientSurname)) {
             this.clientSurname = clientSurname;
         } else {
             throw new IllegalArgumentException("Błędne nazwisko!");
         }
-        if (clientAddress != null && !clientAddress.isBlank() && clientName.length() > 0 && clientName.length() < 50) {
+        if (isValidAdress(clientAddress)) {
             this.clientAddress = clientAddress;
         } else {
             throw new IllegalArgumentException("Błędny adres!");
         }
         this.orderStatus = orderStatus;
-        if (!products.values().isEmpty()) {
+        if (isValidProducts(products)) {
             this.products = products;
         } else {
             throw new IllegalArgumentException("Pusty koszyk!");
         }
+    }
+
+    private boolean isValidName(String name) {
+        return name != null && !name.isBlank() && name.length() > 0 && name.length() < 50 && name.matches("\\w+\\.?");
+    }
+    private boolean isValidAdress(String name) {
+        return name != null && !name.isBlank() && name.length() > 0 && name.length() < 50;
+    }
+    private boolean isValidProducts(Map<Product, Integer> products) {
+        return !products.values().isEmpty();
     }
 
     public int getOrderID() {
@@ -128,14 +138,7 @@ public class Order {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return orderID == order.orderID
-                && Double.compare(order.orderSum, orderSum) == 0
-                && Objects.equals(orderNumber, order.orderNumber)
-                && Objects.equals(clientName, order.clientName)
-                && Objects.equals(clientSurname, order.clientSurname)
-                && Objects.equals(clientAddress, order.clientAddress)
-                && Objects.equals(orderStatus, order.orderStatus)
-                && Objects.equals(products, order.products);
+        return orderID == order.orderID && Double.compare(order.orderSum, orderSum) == 0 && Objects.equals(orderNumber, order.orderNumber) && Objects.equals(clientName, order.clientName) && Objects.equals(clientSurname, order.clientSurname) && Objects.equals(clientAddress, order.clientAddress) && Objects.equals(orderStatus, order.orderStatus) && Objects.equals(products, order.products);
     }
 
     @Override
@@ -145,15 +148,6 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
-                "orderID=" + orderID +
-                ", orderNumber='" + orderNumber + '\'' +
-                ", orderSum=" + orderSum +
-                ", clientName='" + clientName + '\'' +
-                ", clientSurname='" + clientSurname + '\'' +
-                ", clientAddress='" + clientAddress + '\'' +
-                ", orderStatus=" + orderStatus +
-                ", products=" + products +
-                '}';
+        return "Order{" + "orderID=" + orderID + ", orderNumber='" + orderNumber + '\'' + ", orderSum=" + orderSum + ", clientName='" + clientName + '\'' + ", clientSurname='" + clientSurname + '\'' + ", clientAddress='" + clientAddress + '\'' + ", orderStatus=" + orderStatus + ", products=" + products + '}';
     }
 }
