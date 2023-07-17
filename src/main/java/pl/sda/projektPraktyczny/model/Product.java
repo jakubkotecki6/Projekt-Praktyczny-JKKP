@@ -11,9 +11,24 @@ public class Product {
 
     public Product(int productId, double price, String name, Category category, int quantity) {
         this.productId = ++lastId;
+
+        if (!isValidPrice(price)) {
+            throw new IllegalArgumentException("Cena musi być większa od zera!");
+        }
         this.price = price;
-        this.name = name;
+
+       if (!isValidName(name)) {
+           throw new IllegalArgumentException("Nazwa nie może być pusta oraz nazwa może mieć max 50 znaków!");
+       } this.name = name;
+
+        if (!isValidCategory(category)) {
+            throw new IllegalArgumentException("Kategoria nie może być pusta!");
+        }
         this.category = category;
+
+        if (!isValidQuantity(quantity)) {
+            throw new IllegalArgumentException("Ilość nie może wynosić zero!");
+        }
         this.quantity = quantity;
     }
 
@@ -38,11 +53,7 @@ public class Product {
     }
 
     public void setPrice(double price) {
-        if (isValidPrice(price)) {
             this.price = price;
-        } else {
-            throw new IllegalArgumentException("Cena musi być większa od zera.");
-        }
     }
 
     public void setProductId(int productId) {
@@ -65,7 +76,15 @@ public class Product {
         return price > 0;
     }
 
+    private boolean isValidCategory(Category category) {
+        return category != null;
+    }
+
+    private boolean isValidQuantity(int quantity) {
+        return quantity > 0;
+    }
+
     private boolean isValidName(String name) {
-        return name != null && !name.isBlank();
+        return name != null && !name.isBlank() && name.length() > 0 && name.length() < 50;
     }
 }
