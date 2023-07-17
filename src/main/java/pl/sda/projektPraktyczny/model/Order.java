@@ -16,7 +16,6 @@ public class Order {
     private Map<Product, Integer> products;
     Random random = new Random();
 
-
     public Order(double orderSum, String clientName, String clientSurname, String clientAddress, Enum orderStatus, Map<Product, Integer> products) {
         this.orderID = ++counter;
         this.orderNumber = String.valueOf(99999999 - random.nextInt(99999999));

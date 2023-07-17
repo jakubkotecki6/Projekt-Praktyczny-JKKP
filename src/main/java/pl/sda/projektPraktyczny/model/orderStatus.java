@@ -6,4 +6,3 @@ public enum orderStatus {
     WYSLANE,
     W_PRZYGOTOWANIU
 }
-
