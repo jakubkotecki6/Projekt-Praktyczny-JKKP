@@ -19,7 +19,7 @@ public class Order {
     public Order(double orderSum, String clientName, String clientSurname, String clientAddress, Enum orderStatus, Map<Product, Integer> products) {
         this.orderID = ++lastId;
         this.orderNumber = String.valueOf(99999999 - random.nextInt(99999999));
-        if (orderSum > 0) {
+        if (isValidOrderSum(orderSum)) {
             this.orderSum = orderSum;
         } else {
             throw new IllegalArgumentException("Błędna suma zamówienia!");
@@ -47,6 +47,9 @@ public class Order {
         }
     }
 
+    private boolean isValidOrderSum(double sum){
+        return sum > 0;
+    }
     private boolean isValidName(String name) {
         return name != null && !name.isBlank() && name.length() > 0 && name.length() < 50 && name.matches("\\w+\\.?");
     }
@@ -70,7 +73,7 @@ public class Order {
     }
 
     public void setOrderSum(double orderSum) {
-        if (orderSum > 0) {
+        if (isValidOrderSum(orderSum)) {
             this.orderSum = orderSum;
         } else {
             throw new IllegalArgumentException("Błędna suma zamówienia!");
@@ -82,7 +85,7 @@ public class Order {
     }
 
     public void setClientName(String clientName) {
-        if (clientName != null && !clientName.isBlank() && clientName.length() > 0 && clientName.length() < 50 && clientName.matches("\\w+\\.?")) {
+        if (isValidName(clientName)) {
             this.clientName = clientName;
         } else {
             throw new IllegalArgumentException("Błędne imię!");
@@ -94,7 +97,7 @@ public class Order {
     }
 
     public void setClientSurname(String clientSurname) {
-        if (clientSurname != null && !clientSurname.isBlank() && clientName.length() > 0 && clientName.length() < 50 && clientName.matches("\\w+\\.?")) {
+        if (isValidName(clientSurname)) {
             this.clientSurname = clientSurname;
         } else {
             throw new IllegalArgumentException("Błędne nazwisko!");
@@ -106,7 +109,7 @@ public class Order {
     }
 
     public void setClientAddress(String clientAddress) {
-        if (clientAddress != null && !clientAddress.isBlank() && clientName.length() > 0 && clientName.length() < 50) {
+        if (isValidAdress(clientAddress)) {
             this.clientAddress = clientAddress;
         } else {
             throw new IllegalArgumentException("Błędny adres!");
@@ -126,7 +129,7 @@ public class Order {
     }
 
     public void setProducts(Map<Product, Integer> products) {
-        if (!products.values().isEmpty()) {
+        if (isValidProducts(products)) {
             this.products = products;
         } else {
             throw new IllegalArgumentException("Pusty koszyk!");
