@@ -48,6 +48,7 @@ public class Order {
         }
     }
 
+
     private boolean isValidOrderSum(double sum){
         return sum > 0;
     }
