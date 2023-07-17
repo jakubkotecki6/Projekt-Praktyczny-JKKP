@@ -16,7 +16,6 @@ public class Order {
     private Map<Product, Integer> products;
     Random random = new Random();
 
-
     public Order(double orderSum, String clientName, String clientSurname, String clientAddress, Enum orderStatus, Map<Product, Integer> products) {
         this.orderID = ++lastId;
         this.orderNumber = String.valueOf(99999999 - random.nextInt(99999999));
@@ -46,20 +45,6 @@ public class Order {
         } else {
             throw new IllegalArgumentException("Pusty koszyk!");
         }
-    }
-
-
-    private boolean isValidOrderSum(double sum){
-        return sum > 0;
-    }
-    private boolean isValidName(String name) {
-        return name != null && !name.isBlank() && name.length() > 0 && name.length() < 50 && name.matches("\\w+\\.?");
-    }
-    private boolean isValidAdress(String name) {
-        return name != null && !name.isBlank() && name.length() > 0 && name.length() < 50;
-    }
-    private boolean isValidProducts(Map<Product, Integer> products) {
-        return !products.values().isEmpty();
     }
 
     public int getOrderID() {
@@ -136,6 +121,22 @@ public class Order {
         } else {
             throw new IllegalArgumentException("Pusty koszyk!");
         }
+    }
+
+    private boolean isValidOrderSum(double sum) {
+        return sum > 0;
+    }
+
+    private boolean isValidName(String name) {
+        return name != null && !name.isBlank() && name.length() > 0 && name.length() < 50 && name.matches("\\w+\\.?");
+    }
+
+    private boolean isValidAdress(String name) {
+        return name != null && !name.isBlank() && name.length() > 0 && name.length() < 50;
+    }
+
+    private boolean isValidProducts(Map<Product, Integer> products) {
+        return !products.values().isEmpty();
     }
 
     @Override
