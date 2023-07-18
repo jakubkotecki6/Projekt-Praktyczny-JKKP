@@ -1,0 +1,22 @@
+Index: src/main/java/pl/sda/projektPraktyczny/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pl.sda.projektPraktyczny;\r\n\r\npublic class Main {\r\n    public static void main(String[] args) {\r\n        System.out.println(\"Hello world!\");\r\n        //TEST\r\n        //TEST\r\n        //TEST\r\n        //TEST\r\n        //TEST\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/pl/sda/projektPraktyczny/Main.java b/src/main/java/pl/sda/projektPraktyczny/Main.java
+--- a/src/main/java/pl/sda/projektPraktyczny/Main.java	(revision 6f2fce4e838ea2edacfff91dee20663401e34041)
++++ b/src/main/java/pl/sda/projektPraktyczny/Main.java	(date 1689613314774)
+@@ -3,10 +3,5 @@
+ public class Main {
+     public static void main(String[] args) {
+         System.out.println("Hello world!");
+-        //TEST
+-        //TEST
+-        //TEST
+-        //TEST
+-        //TEST
+     }
+ }
+\ No newline at end of file
