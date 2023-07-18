@@ -5,8 +5,8 @@ import java.util.Objects;
 public class Category {
 
     private static int lastCategoryId = 1;
-    private int categoryId;
-    String name;
+    private final int categoryId;
+    private final String name;
 
     public Category(String name) {
         this.categoryId = lastCategoryId++;
@@ -21,16 +21,8 @@ public class Category {
         return categoryId;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     private boolean isValidName(String name) {
