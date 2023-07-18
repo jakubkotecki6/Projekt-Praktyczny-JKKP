@@ -1,4 +1,4 @@
-package pl.sda.projektPraktyczny.model;
+package pl.sda.projektPraktyczny.models;
 
 import java.util.Map;
 import java.util.Objects;
