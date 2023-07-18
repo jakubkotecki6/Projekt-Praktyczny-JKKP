@@ -1,0 +1,13 @@
+-wywalcie folder .idea z gita -> to nie jest nikomu potrzebne :D
+- macie pakiet model i services -> albo model i service albo models i services
+- orderSTatus jest z małej litery -> przecież to Java, Klasy z dużej litery
+- Category -> fajnie jakbyście przy pola dodali private final, dla czytelności.
+- Dobrą praktyką jest jak wszelkie parametry są "Final".
+- skoro categoryId jest ustawiane w konstruktorze to potrzebujecie tego jako parametr?
+- Jak utworzę Obiekt category1, a potem category2 to oba będą miały ID 1, pomyślcie czego brakuje :)
+(w ordre jest to zaimplementowane git)
+- wszystkie uwagi co do Order takie jak w Category.
+
+- może warto wynieś te ify walidacji do osobnych metod? tak, aby w konstruktorze był tylko np. "check order sum"
+- Trochę nie podoba mi się ten Random w modelu. Można jakoś inaczej to zrobić?
+- w PRoduct uwagi jak wyżej.
