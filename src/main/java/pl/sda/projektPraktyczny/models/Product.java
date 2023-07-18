@@ -1,4 +1,4 @@
-package pl.sda.projektPraktyczny.model;
+package pl.sda.projektPraktyczny.models;
 
 import java.util.Objects;
 
@@ -11,7 +11,7 @@ public class Product {
     private Category category;
     private int quantity;
 
-    public Product(int productId, double price, String name, Category category, int quantity) {
+    public Product(double price, String name, Category category, int quantity) {
         this.productId = ++lastProductId;
 
         if (!isValidPrice(price)) {

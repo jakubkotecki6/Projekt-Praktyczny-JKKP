@@ -1,4 +1,4 @@
-package pl.sda.projektPraktyczny.model;
+package pl.sda.projektPraktyczny.models;
 
 import java.util.Objects;
 
@@ -8,7 +8,7 @@ public class Category {
     int lastCategoryId = 0;
     String name;
 
-    public Category(int categoryId, String name) {
+    public Category(String name) {
         this.categoryId = ++lastCategoryId;
 
         if (!isValidName(name)) {
@@ -33,8 +33,8 @@ public class Category {
         this.name = name;
     }
 
-    private boolean isValidName (String name) {
-        return name != null && name.isBlank() && name.length() >0 && name.length() < 50;
+    private boolean isValidName(String name) {
+        return name != null && name.isBlank() && name.length() > 0 && name.length() < 50;
     }
 
     @Override
