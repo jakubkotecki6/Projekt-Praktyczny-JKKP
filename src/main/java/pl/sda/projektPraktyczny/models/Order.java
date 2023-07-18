@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.Random;
 
 public class Order {
-    private static int lastId = 0;
+    private static int counter = 0;
     private final int orderID;
     private final String orderNumber;
     private double orderSum;
@@ -14,38 +14,17 @@ public class Order {
     private String clientAddress;
     private Enum orderStatus;
     private Map<Product, Integer> products;
-    Random random = new Random();
 
 
     public Order(double orderSum, String clientName, String clientSurname, String clientAddress, Enum orderStatus, Map<Product, Integer> products) {
-        this.orderID = ++lastId;
-        this.orderNumber = String.valueOf(99999999 - random.nextInt(99999999));
-        if (isValidOrderSum(orderSum)) {
-            this.orderSum = orderSum;
-        } else {
-            throw new IllegalArgumentException("Błędna suma zamówienia!");
-        }
-        if (isValidName(clientName)) {
-            this.clientName = clientName;
-        } else {
-            throw new IllegalArgumentException("Błędne imię!");
-        }
-        if (isValidName(clientSurname)) {
-            this.clientSurname = clientSurname;
-        } else {
-            throw new IllegalArgumentException("Błędne nazwisko!");
-        }
-        if (isValidAdress(clientAddress)) {
-            this.clientAddress = clientAddress;
-        } else {
-            throw new IllegalArgumentException("Błędny adres!");
-        }
+        orderID = ++counter;
+        this.orderNumber = generateOrderNumber();
+        checkSetOrderSum(orderSum);
+        checkSetName(clientName);
+        checkSetSurname(clientSurname);
+        checkSetAdress(clientAddress);
         this.orderStatus = orderStatus;
-        if (isValidProducts(products)) {
-            this.products = products;
-        } else {
-            throw new IllegalArgumentException("Pusty koszyk!");
-        }
+        checkSetProduct(products);
     }
 
     public int getOrderID() {
@@ -124,6 +103,48 @@ public class Order {
         }
     }
 
+    private void checkSetOrderSum(double orderSum){
+        if (isValidOrderSum(orderSum)) {
+            this.orderSum = orderSum;
+        } else {
+            throw new IllegalArgumentException("Błędna suma zamówienia!");
+        }
+    }
+    private void checkSetName(String clientName){
+        if (isValidName(clientName)) {
+            this.clientName = clientName;
+        } else {
+            throw new IllegalArgumentException("Błędne imię!");
+        }
+    }
+    private void checkSetSurname(String clientSurname){
+        if (isValidName(clientSurname)) {
+            this.clientSurname = clientSurname;
+        } else {
+            throw new IllegalArgumentException("Błędne nazwisko!");
+        }
+    }
+    private void checkSetAdress(String clientAddress){
+        if (isValidAdress(clientAddress)) {
+            this.clientAddress = clientAddress;
+        } else {
+            throw new IllegalArgumentException("Błędny adres!");
+        }
+    }
+    private void checkSetProduct(Map products){
+        if (isValidProducts(products)) {
+            this.products = products;
+        } else {
+            throw new IllegalArgumentException("Pusty koszyk!");
+        }
+    }
+
+
+
+    private String generateOrderNumber(){
+        Random random = new Random();
+        return String.valueOf(99999999 - random.nextInt(99999999));
+    }
     private boolean isValidOrderSum(double sum) {
         return sum > 0;
     }
