@@ -34,7 +34,7 @@ public class CategoryService {
         }
     }
 
-    public void showCategoryById(List<Category> categories, int categoryId) {
+    public void showCategoryById(int categoryId) {
         for (Category categoryItem : categories) {
             if (categoryItem.getCategoryId() == categoryId) {
                 System.out.println("Category ID: " + categoryItem.getCategoryId());

@@ -10,10 +10,6 @@ public class Category {
 
     public Category(String name) {
         this.categoryId = lastCategoryId++;
-
-        if (!isValidName(name)) {
-            throw new IllegalArgumentException("Nazwa nie może być pusta oraz nazwa może mieć max 50 znaków!");
-        }
         this.name = name;
     }
 

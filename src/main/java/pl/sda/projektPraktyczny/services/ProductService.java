@@ -7,18 +7,18 @@ import java.util.List;
 
 public class ProductService {
 
-    private static List<Product> products = new ArrayList<>();
+    private static final List<Product> products = new ArrayList<>();
 
     public List<Product> generateProductsList() {
         return products;
     }
 
-    public static void addProduct(List<Product> products, Product newProduct) {
+    public static void addProduct(Product newProduct) {
         products.add(newProduct);
-        System.out.println("Produkt został dodany");
+        System.out.println("Produkt " + newProduct.getName() + " został dodany");
     }
 
-    public void removeProduct (List<Product> products, Product productToRemove) {
+    public void removeProduct (Product productToRemove) {
         products.remove(productToRemove);
         System.out.println("Produkt został usunięty");
     }
@@ -27,6 +27,14 @@ public class ProductService {
     public void showAllProducts() {
         for (Product product : products) {
             System.out.println(product);
+        }
+    }
+
+    public void showProductById(int productId) {
+        for (Product productItem : products) {
+            if (productItem.getProductId() == productId) {
+                System.out.println(productItem);
+            }
         }
     }
 
