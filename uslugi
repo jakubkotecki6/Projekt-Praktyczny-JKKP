@@ -1,0 +1,46 @@
+Klasy-usługi:
+	ProductService
+-Dodaj produkt MVP - done
+-Usuń produkt* - done
+-Pokaż wszystkie produkty MVP
+-Pokaż jeden produkt MVP
+...
+	CategoryService
+-Dodaj kategorie MVP
+-Usuń kategorie
+-Pokaż wszystkie kategorie MVP
+-Pokaż jedną kategorie MVP
+...
+	OrderService
+-Dodaj zamówienie MVP
+-Usuń zamówienie
+-Pokaż wszystkie zamówienia MVP
+-Pokaż jedno zamówienie MVP
+-Pokaż status
+-Zmień status
+----------------------------------------------------------------------------------------------------------------
+Menu
+----------------------------------------------------------------------------------------------------------------
+[1] Zamówienia ->
+	- Lista zamówień
+	- Konkretne zamówienie
+	- Dodaj zamówienie
+	- Usuń zamówienie *
+	- Edytuj zamówienie *
+	- Zmień status zamówienia changeStatus(CREATED)
+	- Pokaż status zamówienia
+	- Dodaj produkt do zamówienia addProductToOrder(productId, orderId, quantity) *
+	- Cofnij
+[2] Kategorie produktów ->
+	- Lista kategorii
+	- Konkretna kategoria
+	- Dodaj kategorie
+	- Usuń kategorie*
+	- Cofnij
+[3] Produkty ->
+	- Lista produktów
+	- Konkretny produkt
+	- Dodaj produkt
+	- Usuń produkt *
+	- Cofnij
+Exit
