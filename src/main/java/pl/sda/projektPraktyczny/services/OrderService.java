@@ -3,14 +3,28 @@ package pl.sda.projektPraktyczny.services;
 import pl.sda.projektPraktyczny.models.Order;
 import pl.sda.projektPraktyczny.models.OrderStatus;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderService {
-    List<Order> orders = new ArrayList<>();
+    private static List<Order> orders = new ArrayList<>();
 
-    public List<Order> generateOrdersList() {
-        return orders;
+    public void generateOrdersList() {
+         try (BufferedWriter writer = new BufferedWriter(new FileWriter("lista_zamowien.txt"))) {
+            for (Order order : orders) {
+                writer.write(order.toString());
+                writer.newLine();
+            }
+            System.out.println("Lista zamówień zapisana do pliku");
+        } catch (IOException e) {
+            System.err.println("Wystąpił błąd podczas zapisywania listy: " + e.getMessage());
+        }
+    }
+
+    public List<Order> loadOrdersFromFile() {
+        //wczytanie linijek pliku do nowej listy
+        return null;
     }
 
     public void addOrder(Order order) {
@@ -26,29 +40,25 @@ public class OrderService {
     public void removeOrderByOrderNumber(int orderNumber) {
         boolean found = false;
         for (Order order : orders) {
-            if (order.getOrderNumber().equals(orderNumber)) {
-                orders.remove(orderNumber);
+            if (order.getOrderNumber().equals(String.valueOf(orderNumber))) {
+                orders.remove(order);
                 found = true;
                 System.out.println("Zamówienie o numerze " + orderNumber + " zostało usunęte");
             }
         }
-        if (!found) {
-            System.out.println("nie znaleziono zamówienia");
-        }
+        notFound(found);
     }
 
     public void removeOrderByOrderId(int orderId) {
         boolean found = false;
         for (Order order : orders) {
             if (order.getOrderID() == orderId) {
-                orders.remove(orderId);
+                orders.remove(order);
                 found = true;
                 System.out.println("Zamówienie o identyfikatorze " + orderId + " zostało usunęte");
             }
         }
-        if (!found) {
-            System.out.println("nie znaleziono zamówienia");
-        }
+        notFound(found);
     }
 
     public void showAllOrders() {
@@ -57,14 +67,12 @@ public class OrderService {
             System.out.println(order);
             found = true;
         }
-        if (!found){
-            System.out.println("Nie ma żadnych zamówień");
-        }
+        notFound(found);
     }
 
     public Order showOrderByOrderNumber(int orderNumber) {
         for (Order order : orders) {
-            if (order.getOrderNumber().equals(orderNumber)) {
+            if (order.getOrderNumber().equals(String.valueOf(orderNumber))) {
                 return order;
             }
         }
@@ -75,25 +83,27 @@ public class OrderService {
     public void showOrderStatusByID(int orderNumber) {
         boolean found = false;
         for (Order order : orders) {
-            if (order.getOrderNumber().equals(orderNumber)) {
+            if (order.getOrderNumber().equals(String.valueOf(orderNumber))) {
                 System.out.println(order.getOrderStatus());
                 found = true;
             }
         }
-        if (!found) {
-            System.out.println("nie znaleziono zamówienia");
-        }
+        notFound(found);
+
     }
 
-    public void changeStatusByID(int orderNumber, Enum OrderStatus) {
+    public void changeStatusByID(int orderNumber, OrderStatus orderStatus) {
         boolean found = false;
         for (Order order : orders) {
-            if (order.getOrderNumber().equals(orderNumber)) {
-                order.setOrderStatus(OrderStatus);
+            if (order.getOrderNumber().equals(String.valueOf(orderNumber))) {
+                order.setOrderStatus(orderStatus);
                 found = true;
-                System.out.println("Zmieniono status na " + OrderStatus);
+                System.out.println("Zmieniono status na " + orderStatus);
             }
         }
+        notFound(found);
+    }
+    public void notFound(boolean found){
         if (!found) {
             System.out.println("nie znaleziono zamówienia");
         }

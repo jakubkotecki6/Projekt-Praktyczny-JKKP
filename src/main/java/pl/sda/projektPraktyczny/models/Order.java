@@ -12,11 +12,11 @@ public class Order {
     private String clientName;
     private String clientSurname;
     private String clientAddress;
-    private Enum orderStatus;
+    private OrderStatus orderStatus;
     private Map<Product, Integer> products;
 
 
-    public Order(double orderSum, String clientName, String clientSurname, String clientAddress, Enum orderStatus, Map<Product, Integer> products) {
+    public Order(double orderSum, String clientName, String clientSurname, String clientAddress, OrderStatus orderStatus, Map<Product, Integer> products) {
         orderID = ++counter;
         this.orderNumber = generateOrderNumber();
         checkSetOrderSum(orderSum);
@@ -76,18 +76,18 @@ public class Order {
     }
 
     public void setClientAddress(String clientAddress) {
-        if (isValidAdress(clientAddress)) {
+        if (isValidAddress(clientAddress)) {
             this.clientAddress = clientAddress;
         } else {
             throw new IllegalArgumentException("Błędny adres!");
         }
     }
 
-    public Enum getOrderStatus() {
+    public OrderStatus getOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(Enum orderStatus) {
+    public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
     }
 
@@ -125,13 +125,13 @@ public class Order {
         }
     }
     private void checkSetAdress(String clientAddress){
-        if (isValidAdress(clientAddress)) {
+        if (isValidAddress(clientAddress)) {
             this.clientAddress = clientAddress;
         } else {
             throw new IllegalArgumentException("Błędny adres!");
         }
     }
-    private void checkSetProduct(Map products){
+    private void checkSetProduct(Map<Product, Integer>  products){
         if (isValidProducts(products)) {
             this.products = products;
         } else {
@@ -153,7 +153,7 @@ public class Order {
         return name != null && !name.isBlank() && name.length() > 0 && name.length() < 50 && name.matches("\\w+\\.?");
     }
 
-    private boolean isValidAdress(String name) {
+    private boolean isValidAddress(String name) {
         return name != null && !name.isBlank() && name.length() > 0 && name.length() < 50;
     }
 
