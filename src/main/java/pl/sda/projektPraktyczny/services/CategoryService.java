@@ -1,7 +1,6 @@
 package pl.sda.projektPraktyczny.services;
 
 import pl.sda.projektPraktyczny.models.Category;
-import pl.sda.projektPraktyczny.models.Order;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +23,24 @@ public class CategoryService {
         System.out.println("Kategoria została usunięta");
     }
 
+    public void showAllCategories() {
+        boolean found = false;
+        for (Category categoryItem : categories) {
+            System.out.println(categoryItem);
+            found = true;
+        }
+        if (!found) {
+            System.out.println("Nie ma żadnych kategorii");
+        }
+    }
 
-
+    public void showCategoryById(List<Category> categories, int categoryId) {
+        for (Category categoryItem : categories) {
+            if (categoryItem.getCategoryId() == categoryId) {
+                System.out.println("Category ID: " + categoryItem.getCategoryId());
+                System.out.println("Category name: " + categoryItem.getName());
+            }
+            else System.out.println("Nie znaleziono kategorii o podanym ID");
+        }
+    }
 }
