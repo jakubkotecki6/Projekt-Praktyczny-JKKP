@@ -15,10 +15,12 @@ public class OrderService {
 
     public void addOrder(Order order) {
         orders.add(order);
+        System.out.println("Zamówienie zostało dodane");
     }
 
     public void removeOrder(Order order) {
         orders.remove(order);
+        System.out.println("Zamówienie zostało usunięte");
     }
 
     public void removeOrderByOrderNumber(int orderNumber) {
@@ -50,8 +52,13 @@ public class OrderService {
     }
 
     public void showAllOrders() {
+        boolean found = false;
         for (Order order : orders) {
             System.out.println(order);
+            found = true;
+        }
+        if (!found){
+            System.out.println("Nie ma żadnych zamówień");
         }
     }
 
