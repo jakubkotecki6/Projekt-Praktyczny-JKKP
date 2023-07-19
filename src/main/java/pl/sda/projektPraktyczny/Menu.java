@@ -95,18 +95,10 @@ public class Menu extends OrderService {
                  [0] Cofnij""");
 
         switch (picking(3)) {
-            case 0:
-                orderMenu();
-                break;
-            case 1:
-                orderService.removeOrder(getOrderValue());
-                break;
-            case 2:
-                orderService.removeOrderByOrderNumber(getIntValue());
-                break;
-            case 3:
-                orderService.removeOrderByOrderId(getIntValue());
-                break;
+            case 0 -> orderMenu();
+            case 1 -> orderService.removeOrder(getOrderValue());
+            case 2 -> orderService.removeOrderByOrderNumber(getIntValue());
+            case 3 -> orderService.removeOrderByOrderId(getIntValue());
         }
     }
 
@@ -197,7 +189,6 @@ public class Menu extends OrderService {
     }
 
     private static OrderStatus getOrderStatus() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("""
                 Statusy
                 \t [0] OPLACONE
@@ -205,16 +196,12 @@ public class Menu extends OrderService {
                 \t [2] WYSLANE
                 \t [3] W_PRZYGOTOWANIU""");
 
-        switch (picking(3)) {
-            case 0:
-                return OrderStatus.OPLACONE;
-            case 1:
-                return OrderStatus.ANULOWANE;
-            case 2:
-                return OrderStatus.WYSLANE;
-            case 3:
-                return OrderStatus.W_PRZYGOTOWANIU;
-        }
-        return null;
+        return switch (picking(3)) {
+            case 0 -> OrderStatus.OPLACONE;
+            case 1 -> OrderStatus.ANULOWANE;
+            case 2 -> OrderStatus.WYSLANE;
+            case 3 -> OrderStatus.W_PRZYGOTOWANIU;
+            default -> null;
+        };
     }
 }
