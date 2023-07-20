@@ -4,12 +4,16 @@ import java.util.Objects;
 
 public class Category {
 
-    private static int lastCategoryId = 1;
-    private int categoryId;
+    int categoryId;
+    int lastCategoryId = 0;
     String name;
 
     public Category(String name) {
-        this.categoryId = lastCategoryId++;
+        this.categoryId = ++lastCategoryId;
+
+        if (!isValidName(name)) {
+            throw new IllegalArgumentException("Nazwa nie może być pusta oraz nazwa może mieć max 50 znaków!");
+        }
         this.name = name;
     }
 
@@ -37,6 +41,7 @@ public class Category {
     public String toString() {
         return "Category{" +
                 "categoryId=" + categoryId +
+                ", lastCategoryId=" + lastCategoryId +
                 ", name='" + name + '\'' +
                 '}';
     }
@@ -45,11 +50,11 @@ public class Category {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Category category)) return false;
-        return getCategoryId() == category.getCategoryId() && categoryId == category.categoryId && Objects.equals(getName(), category.getName());
+        return getCategoryId() == category.getCategoryId() && lastCategoryId == category.lastCategoryId && Objects.equals(getName(), category.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getCategoryId(), categoryId, getName());
+        return Objects.hash(getCategoryId(), lastCategoryId, getName());
     }
 }
