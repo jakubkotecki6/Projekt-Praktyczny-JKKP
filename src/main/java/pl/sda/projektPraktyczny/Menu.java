@@ -1,10 +1,13 @@
 package pl.sda.projektPraktyczny;
 
+import pl.sda.projektPraktyczny.models.Category;
 import pl.sda.projektPraktyczny.models.Order;
 import pl.sda.projektPraktyczny.models.OrderStatus;
 import pl.sda.projektPraktyczny.models.Product;
 import pl.sda.projektPraktyczny.services.OrderService;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Menu extends OrderService {
@@ -64,7 +67,7 @@ public class Menu extends OrderService {
                 orderService.showOrderByOrderNumber(getIntValue());
                 break;
             case 3:
-                orderService.addOrder(getOrderValue());
+                orderService.addOrder(getOrder());
                 break;
             case 4:
                 whichRemove();
@@ -96,7 +99,7 @@ public class Menu extends OrderService {
 
         switch (picking(3)) {
             case 0 -> orderMenu();
-            case 1 -> orderService.removeOrder(getOrderValue());
+            case 1 -> orderService.removeOrder(getOrder());
             case 2 -> orderService.removeOrderByOrderNumber(getIntValue());
             case 3 -> orderService.removeOrderByOrderId(getIntValue());
         }
@@ -178,14 +181,37 @@ public class Menu extends OrderService {
         return scanner.nextLine();
     }
 
-    private static Order getOrderValue() {
+    private static Order getOrder() {
         Scanner scanner = new Scanner(System.in);
-        return new Order(scanner.nextDouble(), scanner.nextLine(), scanner.nextLine(), scanner.nextLine(), getOrderStatus(), getProductValue()); //POWINNO BYĆ PRODUCTS
+        System.out.println("Wpisz sumę zamówienia, imię, nazwisko, adres, ustaw status zamówienia, dodaj produkty: ");
+        return new Order(scanner.nextDouble(), scanner.nextLine(), scanner.nextLine(), scanner.nextLine(), getOrderStatus(), setProductsMap()); //POWINNO BYĆ PRODUCTS
     }
 
-    private static Order getProductValue() {
+    private static Product getProduct() {
         Scanner scanner = new Scanner(System.in);
-        return new Product(scanner.nextDouble(), scanner.nextLine(), XXX, scanner.nextInt());
+        System.out.println("Wpisz cenę, nazwę produktu, kategorię, ilość: ");
+        return new Product(scanner.nextDouble(), scanner.nextLine(), getCategory(), scanner.nextInt());
+    }
+
+    private static Category getCategory() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Wpisz nazwę kategorii: ");
+        Category category = new Category(scanner.nextLine());
+        return category;
+    }
+
+    private static Map<Product, Integer> setProductsMap() {
+        Scanner scanner = new Scanner(System.in);
+        Map<Product, Integer> products = new HashMap<>();
+        int addOrFinish;
+        do {
+            System.out.println("aby dodać kolejny produkt do mapy wpisz 1 jeśli chcesz zakończyć dodawanie produktów wpisz cokolwiek innego");
+            addOrFinish = scanner.nextInt();
+            if (addOrFinish == 1) {
+                products.put(getProduct(), scanner.nextInt());
+            }
+        } while (addOrFinish == 1);
+        return products;
     }
 
     private static OrderStatus getOrderStatus() {
