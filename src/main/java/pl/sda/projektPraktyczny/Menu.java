@@ -57,39 +57,23 @@ public class Menu extends OrderService {
                 \t [0] Cofnij""");
 
         switch (picking(8)) {
-            case 0:
-                mainMenu();
-                break;
-            case 1:
-                orderService.showAllOrders();
-                break;
-            case 2:
-                orderService.showOrderByOrderNumber(getIntValue());
-                break;
-            case 3:
-                orderService.addOrder(getOrder());
-                break;
-            case 4:
-                whichRemove();
-                break;
-            case 5:
-                System.out.println("Pole, pole, łyse pole, ale mam już plan.\n" +
-                        "Pomalutku, bez pośpiechu wszystko zrobię sam.\n" +
-                        "Nad makietą się męczyłem ładnych parę lat,\n" +
-                        "Ale za to zwiedzać cudo będzie cały świat");
-                break;
-            case 6:
-                orderService.changeStatusByID(getIntValue(), getOrderStatus());
-                break;
-            case 7:
-                orderService.showOrderStatusByID(getIntValue());
-                break;
-            case 8:
-                System.out.println("Pole, pole, łyse pole, ale mam już plan.\n" +
-                        "Pomalutku, bez pośpiechu wszystko zrobię sam.\n" +
-                        "Nad makietą się męczyłem ładnych parę lat,\n" +
-                        "Ale za to zwiedzać cudo będzie cały świat");
-                break;
+            case 0 -> mainMenu();
+            case 1 -> orderService.showAllOrders();
+            case 2 -> orderService.showOrderByOrderNumber(getIntValue());
+            case 3 -> orderService.addOrder(getOrder());
+            case 4 -> whichRemove();
+            case 5 -> System.out.println("""
+                    Pole, pole, łyse pole, ale mam już plan.
+                    Pomalutku, bez pośpiechu wszystko zrobię sam.
+                    Nad makietą się męczyłem ładnych parę lat,
+                    Ale za to zwiedzać cudo będzie cały świat""");
+            case 6 -> orderService.changeStatusByID(getIntValue(), getOrderStatus());
+            case 7 -> orderService.showOrderStatusByID(getIntValue());
+            case 8 -> System.out.println("""
+                    Pole, pole, łyse pole, ale mam już plan.
+                    Pomalutku, bez pośpiechu wszystko zrobię sam.
+                    Nad makietą się męczyłem ładnych parę lat,
+                    Ale za to zwiedzać cudo będzie cały świat""");
         }
     }
 
@@ -202,8 +186,7 @@ public class Menu extends OrderService {
     private static Category getCategory() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Wpisz nazwę kategorii: ");
-        Category category = new Category(scanner.nextLine());
-        return category;
+        return new Category(scanner.nextLine());
     }
 
     private static Map<Product, Integer> setProductsMap() {
