@@ -73,7 +73,10 @@ public class Menu extends OrderService {
                 whichRemove();
                 break;
             case 5:
-                //EDIT
+                System.out.println("Pole, pole, łyse pole, ale mam już plan.\n" +
+                        "Pomalutku, bez pośpiechu wszystko zrobię sam.\n" +
+                        "Nad makietą się męczyłem ładnych parę lat,\n" +
+                        "Ale za to zwiedzać cudo będzie cały świat");
                 break;
             case 6:
                 orderService.changeStatusByID(getIntValue(), getOrderStatus());
@@ -82,7 +85,10 @@ public class Menu extends OrderService {
                 orderService.showOrderStatusByID(getIntValue());
                 break;
             case 8:
-                //
+                System.out.println("Pole, pole, łyse pole, ale mam już plan.\n" +
+                        "Pomalutku, bez pośpiechu wszystko zrobię sam.\n" +
+                        "Nad makietą się męczyłem ładnych parę lat,\n" +
+                        "Ale za to zwiedzać cudo będzie cały świat");
                 break;
         }
     }
