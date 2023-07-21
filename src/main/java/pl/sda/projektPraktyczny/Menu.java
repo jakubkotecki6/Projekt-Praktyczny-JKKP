@@ -7,7 +7,6 @@ import pl.sda.projektPraktyczny.models.Product;
 import pl.sda.projektPraktyczny.services.OrderService;
 
 import java.util.HashMap;
-import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -31,7 +30,7 @@ public class Menu extends OrderService {
                  [3] Produkty
                  [0] Exit""");
 
-        switch (picking(3)) {
+        switch (pickingNumber(3)) {
             case 0:
                 OrderService.generateOrdersList();
                 break;
@@ -64,7 +63,7 @@ public class Menu extends OrderService {
                     \t [8] Dodaj produkt do zamówienia addProductToOrder(productId, orderId, quantity)
                     \t [0] Cofnij""");
 
-            pick = picking(8);
+            pick = pickingNumber(8);
             switch (pick) {
                 case 0 -> mainMenu();
                 case 1 -> orderService.showAllOrders();
@@ -98,7 +97,7 @@ public class Menu extends OrderService {
                  [3] ID zamówienia
                  [0] Cofnij""");
 
-        switch (picking(3)) {
+        switch (pickingNumber(3)) {
             case 0 -> orderMenu();
             case 1 -> orderService.removeOrder(getOrder());
             case 2 -> orderService.removeOrderByOrderNumber(getIntValue());
@@ -115,7 +114,7 @@ public class Menu extends OrderService {
                 \t [4] Usuń kategorie
                 \t [0] Cofnij""");
 
-        switch (picking(4)) {
+        switch (pickingNumber(4)) {
             case 0:
                 mainMenu();
                 break;
@@ -144,7 +143,7 @@ public class Menu extends OrderService {
                 \t [4] Usuń produkt
                 \t [0] Cofnij""");
 
-        switch (picking(4)) {
+        switch (pickingNumber(4)) {
             case 0:
                 mainMenu();
                 break;
@@ -163,23 +162,28 @@ public class Menu extends OrderService {
         }
     }
 
-    private static int picking(int numberOfOptions) {
+    private static int pickingNumber(int numberOfOptions) {
         Scanner scanner = new Scanner(System.in);
         int pick = -1;
         String input;
         do {
-            input = scanner.next();
-            if (isNumeric(input)){
-                pick = Integer.parseInt(input);
-            }else {
+            try {
+                input = scanner.next();
+                if (isNumeric(input)){
+                    pick = Integer.parseInt(input);
+                }if (Integer.parseInt(input) < 0 || Integer.parseInt(input) > numberOfOptions){
+                    System.out.println("podaj liczbę w zakresie od 0 do " + numberOfOptions);
+                }
+            }catch (NumberFormatException e){
                 System.out.println("podaj liczbę w zakresie od 0 do " + numberOfOptions);
             }
+
         } while (pick < 0 || pick > numberOfOptions);
         return pick;
     }
 
     private static int getIntValue() {
-        System.out.print("Podaj liczbe: ");
+        System.out.println("Podaj liczbe: ");
         Scanner scanner = new Scanner(System.in);
         int number = 0;
         String input;
@@ -187,6 +191,22 @@ public class Menu extends OrderService {
             input = scanner.next();
             if (isNumeric(input)){
                 number = Integer.parseInt(input);
+            }else {
+                System.out.println("Podaj liczbę!");
+            }
+        } while (!isNumeric(input));
+        return number;
+    }
+
+    private static double getDoubleValue() {
+        System.out.println("Podaj liczbe: ");
+        Scanner scanner = new Scanner(System.in);
+        double number = 0;
+        String input;
+        do {
+            input = scanner.next();
+            if (isNumeric(input)){
+                number = Double.parseDouble(input);
             }else {
                 System.out.println("Podaj liczbę!");
             }
@@ -208,7 +228,7 @@ public class Menu extends OrderService {
     private static Product getProduct() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Wpisz cenę, nazwę produktu, kategorię, ilość: ");
-        return new Product(scanner.nextDouble(), scanner.nextLine(), getCategory(), scanner.nextInt());
+        return new Product(getDoubleValue(), getStringValue(), getCategory(), getIntValue());
     }
 
     private static Category getCategory() {
@@ -221,10 +241,13 @@ public class Menu extends OrderService {
         Map<Product, Integer> products = new HashMap<>();
         int addOrFinish;
         do {
-            System.out.println("aby dodać produkt do mapy wpisz 1 jeśli chcesz zakończyć dodawanie produktów wpisz cokolwiek innego");
+            System.out.println("aby dodać produkt do mapy wpisz 1 jeśli chcesz zakończyć dodawanie produktów wpisz 0");
             addOrFinish = scanner.nextInt();
             if (addOrFinish == 1) {
                 products.put(getProduct(), scanner.nextInt());
+            }
+            if (addOrFinish == 0){
+                return products;
             }
         } while (addOrFinish == 1);
         return products;
@@ -240,7 +263,7 @@ public class Menu extends OrderService {
                     \t [2] WYSLANE
                     \t [3] W_PRZYGOTOWANIU""");
 
-            return switch (picking(3)) {
+            return switch (pickingNumber(3)) {
                 case 0 -> OrderStatus.OPLACONE;
                 case 1 -> OrderStatus.ANULOWANE;
                 case 2 -> OrderStatus.WYSLANE;
