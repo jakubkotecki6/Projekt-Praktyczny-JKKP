@@ -7,16 +7,23 @@ import pl.sda.projektPraktyczny.models.Product;
 import pl.sda.projektPraktyczny.services.OrderService;
 
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 
+import static org.apache.commons.lang3.StringUtils.isNumeric;
+
 public class Menu extends OrderService {
     public static void main(String[] args) {
-        //wczytanie bazy danych
+        OrderService orderService = new OrderService();
+
+        orderService.loadOrdersFromFile();
+
         mainMenu();
     }
 
     private static void mainMenu() {
+        OrderService orderService = new OrderService();
         System.out.println("""
                 Wybierz
                  [1] Zamówienia
@@ -26,8 +33,7 @@ public class Menu extends OrderService {
 
         switch (picking(3)) {
             case 0:
-                //zapis baz danych
-                //jakieś wyłączanie?
+                OrderService.generateOrdersList();
                 break;
             case 1:
                 orderMenu();
@@ -43,38 +49,43 @@ public class Menu extends OrderService {
 
     private static void orderMenu() {
         OrderService orderService = new OrderService();
+        int pick;
 
-        System.out.println("""
-                Zamówienia
-                \t [1] Lista zamówień
-                \t [2] Konkretne zamówienie
-                \t [3] Dodaj zamówienie
-                \t [4] Usuń zamówienie
-                \t [5] Edytuj zamówienie
-                \t [6] Zmień status zamówienia changeStatus(CREATED)
-                \t [7] Pokaż status zamówienia
-                \t [8] Dodaj produkt do zamówienia addProductToOrder(productId, orderId, quantity)
-                \t [0] Cofnij""");
+        do {
+            System.out.println("""
+                    Zamówienia
+                    \t [1] Lista zamówień
+                    \t [2] Konkretne zamówienie
+                    \t [3] Dodaj zamówienie
+                    \t [4] Usuń zamówienie
+                    \t [5] Edytuj zamówienie
+                    \t [6] Zmień status zamówienia changeStatus(CREATED)
+                    \t [7] Pokaż status zamówienia
+                    \t [8] Dodaj produkt do zamówienia addProductToOrder(productId, orderId, quantity)
+                    \t [0] Cofnij""");
 
-        switch (picking(8)) {
-            case 0 -> mainMenu();
-            case 1 -> orderService.showAllOrders();
-            case 2 -> orderService.showOrderByOrderNumber(getIntValue());
-            case 3 -> orderService.addOrder(getOrder());
-            case 4 -> whichRemove();
-            case 5 -> System.out.println("""
-                    Pole, pole, łyse pole, ale mam już plan.
-                    Pomalutku, bez pośpiechu wszystko zrobię sam.
-                    Nad makietą się męczyłem ładnych parę lat,
-                    Ale za to zwiedzać cudo będzie cały świat""");
-            case 6 -> orderService.changeStatusByID(getIntValue(), getOrderStatus());
-            case 7 -> orderService.showOrderStatusByID(getIntValue());
-            case 8 -> System.out.println("""
-                    Pole, pole, łyse pole, ale mam już plan.
-                    Pomalutku, bez pośpiechu wszystko zrobię sam.
-                    Nad makietą się męczyłem ładnych parę lat,
-                    Ale za to zwiedzać cudo będzie cały świat""");
-        }
+            pick = picking(8);
+            switch (pick) {
+                case 0 -> mainMenu();
+                case 1 -> orderService.showAllOrders();
+                case 2 -> orderService.showOrderByOrderNumber(getIntValue());
+                case 3 -> orderService.addOrder(getOrder());
+                case 4 -> whichRemove();
+                case 5 -> System.out.println("""
+                        Pole, pole, łyse pole, ale mam już plan.
+                        Pomalutku, bez pośpiechu wszystko zrobię sam.
+                        Nad makietą się męczyłem ładnych parę lat,
+                        Ale za to zwiedzać cudo będzie cały świat""");
+                case 6 -> orderService.changeStatusByID(getIntValue(), getOrderStatus());
+                case 7 -> orderService.showOrderStatusByID(getIntValue());
+                case 8 -> System.out.println("""
+                        Pole, pole, łyse pole, ale mam już plan.
+                        Pomalutku, bez pośpiechu wszystko zrobię sam.
+                        Nad makietą się męczyłem ładnych parę lat,
+                        Ale za to zwiedzać cudo będzie cały świat""");
+            }
+        } while (pick != 0);
+
     }
 
     private static void whichRemove() {
@@ -154,16 +165,33 @@ public class Menu extends OrderService {
 
     private static int picking(int numberOfOptions) {
         Scanner scanner = new Scanner(System.in);
-        int pick;
+        int pick = -1;
+        String input;
         do {
-            pick = scanner.nextInt();
+            input = scanner.next();
+            if (isNumeric(input)){
+                pick = Integer.parseInt(input);
+            }else {
+                System.out.println("podaj liczbę w zakresie od 0 do " + numberOfOptions);
+            }
         } while (pick < 0 || pick > numberOfOptions);
         return pick;
     }
 
     private static int getIntValue() {
+        System.out.print("Podaj liczbe: ");
         Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
+        int number = 0;
+        String input;
+        do {
+            input = scanner.next();
+            if (isNumeric(input)){
+                number = Integer.parseInt(input);
+            }else {
+                System.out.println("Podaj liczbę!");
+            }
+        } while (!isNumeric(input));
+        return number;
     }
 
     private static String getStringValue() {
@@ -184,9 +212,8 @@ public class Menu extends OrderService {
     }
 
     private static Category getCategory() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Wpisz nazwę kategorii: ");
-        return new Category(scanner.nextLine());
+        return new Category(getStringValue());
     }
 
     private static Map<Product, Integer> setProductsMap() {
@@ -194,7 +221,7 @@ public class Menu extends OrderService {
         Map<Product, Integer> products = new HashMap<>();
         int addOrFinish;
         do {
-            System.out.println("aby dodać kolejny produkt do mapy wpisz 1 jeśli chcesz zakończyć dodawanie produktów wpisz cokolwiek innego");
+            System.out.println("aby dodać produkt do mapy wpisz 1 jeśli chcesz zakończyć dodawanie produktów wpisz cokolwiek innego");
             addOrFinish = scanner.nextInt();
             if (addOrFinish == 1) {
                 products.put(getProduct(), scanner.nextInt());
@@ -204,19 +231,23 @@ public class Menu extends OrderService {
     }
 
     private static OrderStatus getOrderStatus() {
-        System.out.println("""
-                Statusy
-                \t [0] OPLACONE
-                \t [1] ANULOWANE
-                \t [2] WYSLANE
-                \t [3] W_PRZYGOTOWANIU""");
+        int addOrFinish;
+        do {
+            System.out.println("""
+                    Statusy
+                    \t [0] OPLACONE
+                    \t [1] ANULOWANE
+                    \t [2] WYSLANE
+                    \t [3] W_PRZYGOTOWANIU""");
 
-        return switch (picking(3)) {
-            case 0 -> OrderStatus.OPLACONE;
-            case 1 -> OrderStatus.ANULOWANE;
-            case 2 -> OrderStatus.WYSLANE;
-            case 3 -> OrderStatus.W_PRZYGOTOWANIU;
-            default -> null;
-        };
+            return switch (picking(3)) {
+                case 0 -> OrderStatus.OPLACONE;
+                case 1 -> OrderStatus.ANULOWANE;
+                case 2 -> OrderStatus.WYSLANE;
+                case 3 -> OrderStatus.W_PRZYGOTOWANIU;
+                default -> null;
+            };
+        } while (addOrFinish < 0 && addOrFinish > 3);
+
     }
 }

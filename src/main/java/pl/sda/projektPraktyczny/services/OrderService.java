@@ -10,21 +10,25 @@ import java.util.List;
 public class OrderService {
     private static List<Order> orders = new ArrayList<>();
 
-    public void generateOrdersList() {
-         try (BufferedWriter writer = new BufferedWriter(new FileWriter("lista_zamowien.txt"))) {
-            for (Order order : orders) {
-                writer.write(order.toString());
-                writer.newLine();
-            }
-            System.out.println("Lista zamówień zapisana do pliku");
+    public static void generateOrdersList() {
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("zamowienia.txt"))) {
+            outputStream.writeObject(orders);
+            System.out.println("Lista zapisana do pliku zamowienia.txt");
         } catch (IOException e) {
-            System.err.println("Wystąpił błąd podczas zapisywania listy: " + e.getMessage());
+            System.err.println("Wystąpił błąd podczas zapisywania do pliku: " + e.getMessage());
         }
     }
 
-    public List<Order> loadOrdersFromFile() {
-        //wczytanie linijek pliku do nowej listy
-        return null;
+    public void loadOrdersFromFile() {
+        List<Order> data = null;
+        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("zamowienia.txt"))) {
+            data = (List<Order>) inputStream.readObject();
+            for (Order object : data) {
+                orders.add(object);
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Wystąpił błąd podczas odczytywania pliku: " + e.getMessage());
+        }
     }
 
     public void addOrder(Order order) {
