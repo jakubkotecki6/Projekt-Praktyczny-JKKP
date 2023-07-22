@@ -4,12 +4,12 @@ import java.util.Objects;
 
 public class Product {
 
-    private int productId;
+    private final int productId;
     private static int lastProductId = 0;
-    private double price;
-    private String name;
-    private Category category;
-    private int quantity;
+    private final double price;
+    private final String name;
+    private final Category category;
+    private final int quantity;
 
     public Product(double price, String name, Category category, int quantity) {
         this.productId = ++lastProductId;
@@ -54,25 +54,7 @@ public class Product {
         return quantity;
     }
 
-    public void setPrice(double price) {
-            this.price = price;
-    }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
 
     private boolean isValidPrice(double price) {
         return price > 0;

@@ -7,9 +7,9 @@ import java.util.List;
 
 public class CategoryService {
 
-    List<Category> categories = new ArrayList<>();
+    public static List<Category> categories = new ArrayList<>();
 
-    public List<Category> generateCategoriesList() {
+    public static List<Category> generateCategoriesList() {
         return categories;
     }
 
@@ -24,13 +24,8 @@ public class CategoryService {
     }
 
     public void showAllCategories() {
-        boolean found = false;
         for (Category categoryItem : categories) {
             System.out.println(categoryItem);
-            found = true;
-        }
-        if (!found) {
-            System.out.println("Nie ma żadnych kategorii");
         }
     }
 
