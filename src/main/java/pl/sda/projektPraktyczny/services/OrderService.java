@@ -11,23 +11,25 @@ public class OrderService {
     private static List<Order> orders = new ArrayList<>();
 
     public static void generateOrdersList() {
+        File ordersFile = new File("zamowienia.txt");
+        ordersFile.delete();
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("zamowienia.txt"))) {
             outputStream.writeObject(orders);
             System.out.println("Lista zapisana do pliku zamowienia.txt");
         } catch (IOException e) {
-            System.err.println("Wystąpił błąd podczas zapisywania do pliku: " + e.getMessage());
+            System.err.println("Wystąpił błąd podczas zapisywania do pliku - " + e.getMessage());
         }
     }
 
     public void loadOrdersFromFile() {
         List<Order> data = null;
-        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("zamowienia.txt"))) {
+        try (ObjectInputStream inputStream = new ObjectInputStream( new FileInputStream("zamowienia.txt"))) {
             data = (List<Order>) inputStream.readObject();
             for (Order object : data) {
                 orders.add(object);
             }
         } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Wystąpił błąd podczas odczytywania pliku: " + e.getMessage());
+            System.err.println("Wystąpił błąd podczas odczytywania pliku - " + e.getMessage());
         }
     }
 

@@ -31,18 +31,10 @@ public class Menu extends OrderService {
                  [0] Exit""");
 
         switch (pickingNumber(3)) {
-            case 0:
-                OrderService.generateOrdersList();
-                break;
-            case 1:
-                orderMenu();
-                break;
-            case 2:
-                categoryMenu();
-                break;
-            case 3:
-                productMenu();
-                break;
+            case 0 -> OrderService.generateOrdersList();
+            case 1 -> orderMenu();
+            case 2 -> categoryMenu();
+            case 3 -> productMenu();
         }
     }
 
@@ -162,6 +154,94 @@ public class Menu extends OrderService {
         }
     }
 
+
+
+    private static Order getOrder() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Wpisz dane do zamówienia");
+        return new Order(getOrderSum(), getFirstName(), getSurname(), getAdress(), getOrderStatus(), setProductsMap());
+    }
+
+    private static double getOrderSum() {
+        System.out.print("Wpisz wartość zamówienia: ");
+        return getDoubleValue();
+    }
+
+    private static String getFirstName() {
+        System.out.print("Wpisz imię klienta: ");
+        return getStringValue();
+    }
+
+    private static String getSurname() {
+        System.out.print("Wpisz nazwisko klienta: ");
+        return getStringValue();
+    }
+
+    private static String getAdress() {
+        System.out.print("Wpisz Adres: ");
+        return getStringValue();
+    }
+
+    private static Product getProduct() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Wpisz dane produktu: ");
+        return new Product(getPrice(), getProductName(), getCategoryName(), getAmountOfProducts());
+    }
+
+    private static double getPrice() {
+        System.out.print("Wpisz cenę: ");
+        return getDoubleValue();
+    }
+
+    private static String getProductName() {
+        System.out.print("Wpisz nazwę produktu: ");
+        return getStringValue();
+    }
+
+    private static Category getCategoryName() {
+        System.out.print("Wpisz nazwę kategorii: ");
+        return new Category(getStringValue());
+    }
+
+    private static int getAmountOfProducts() {
+        System.out.print("Wpisz ile masz sztuk produktu: ");
+        return getIntValue();
+    }
+
+    private static Map<Product, Integer> setProductsMap() {
+        Scanner scanner = new Scanner(System.in);
+        Map<Product, Integer> products = new HashMap<>();
+        int addOrFinish;
+        System.out.println("aby dodać produkt do mapy wpisz 1 jeśli chcesz zakończyć dodawanie produktów wpisz 0");
+        do {
+            addOrFinish = scanner.nextInt();
+            if (addOrFinish == 1) {
+                products.put(getProduct(), getIntValue());
+            }
+            if (addOrFinish == 0) {
+                return products;
+            }
+        } while (addOrFinish == 1);
+        return products;
+    }
+
+    private static OrderStatus getOrderStatus() {
+        System.out.println("""
+                Statusy
+                \t [0] OPLACONE
+                \t [1] ANULOWANE
+                \t [2] WYSLANE
+                \t [3] W_PRZYGOTOWANIU""");
+
+        return switch (pickingNumber(3)) {
+            case 0 -> OrderStatus.OPLACONE;
+            case 1 -> OrderStatus.ANULOWANE;
+            case 2 -> OrderStatus.WYSLANE;
+            case 3 -> OrderStatus.W_PRZYGOTOWANIU;
+            default -> null;
+        };
+    }
+
     private static int pickingNumber(int numberOfOptions) {
         Scanner scanner = new Scanner(System.in);
         int pick = -1;
@@ -169,12 +249,13 @@ public class Menu extends OrderService {
         do {
             try {
                 input = scanner.next();
-                if (isNumeric(input)){
+                if (isNumeric(input)) {
                     pick = Integer.parseInt(input);
-                }if (Integer.parseInt(input) < 0 || Integer.parseInt(input) > numberOfOptions){
+                }
+                if (Integer.parseInt(input) < 0 || Integer.parseInt(input) > numberOfOptions) {
                     System.out.println("podaj liczbę w zakresie od 0 do " + numberOfOptions);
                 }
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println("podaj liczbę w zakresie od 0 do " + numberOfOptions);
             }
 
@@ -183,32 +264,35 @@ public class Menu extends OrderService {
     }
 
     private static int getIntValue() {
-        System.out.println("Podaj liczbe: ");
         Scanner scanner = new Scanner(System.in);
         int number = 0;
-        String input;
+        String input = null;
         do {
-            input = scanner.next();
-            if (isNumeric(input)){
-                number = Integer.parseInt(input);
-            }else {
-                System.out.println("Podaj liczbę!");
+            try {
+                input = scanner.next();
+                if (isNumeric(input)) {
+                    number = Integer.parseInt(input);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("podaj liczbę!");
             }
+
         } while (!isNumeric(input));
         return number;
     }
 
     private static double getDoubleValue() {
-        System.out.println("Podaj liczbe: ");
         Scanner scanner = new Scanner(System.in);
         double number = 0;
-        String input;
+        String input = null;
         do {
-            input = scanner.next();
-            if (isNumeric(input)){
-                number = Double.parseDouble(input);
-            }else {
-                System.out.println("Podaj liczbę!");
+            try {
+                input = scanner.next();
+                if (isNumeric(input)) {
+                    number = Double.parseDouble(input);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("podaj liczbę!");
             }
         } while (!isNumeric(input));
         return number;
@@ -216,61 +300,14 @@ public class Menu extends OrderService {
 
     private static String getStringValue() {
         Scanner scanner = new Scanner(System.in);
-        return scanner.nextLine();
-    }
-
-    private static Order getOrder() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Wpisz sumę zamówienia, imię, nazwisko, adres, ustaw status zamówienia, dodaj produkty: ");
-        return new Order(scanner.nextDouble(), scanner.nextLine(), scanner.nextLine(), scanner.nextLine(), getOrderStatus(), setProductsMap()); //POWINNO BYĆ PRODUCTS
-    }
-
-    private static Product getProduct() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Wpisz cenę, nazwę produktu, kategorię, ilość: ");
-        return new Product(getDoubleValue(), getStringValue(), getCategory(), getIntValue());
-    }
-
-    private static Category getCategory() {
-        System.out.println("Wpisz nazwę kategorii: ");
-        return new Category(getStringValue());
-    }
-
-    private static Map<Product, Integer> setProductsMap() {
-        Scanner scanner = new Scanner(System.in);
-        Map<Product, Integer> products = new HashMap<>();
-        int addOrFinish;
+        String word = null;
+        String input;
         do {
-            System.out.println("aby dodać produkt do mapy wpisz 1 jeśli chcesz zakończyć dodawanie produktów wpisz 0");
-            addOrFinish = scanner.nextInt();
-            if (addOrFinish == 1) {
-                products.put(getProduct(), scanner.nextInt());
+            input = scanner.next();
+            if (!input.isBlank()) {
+                word = input;
             }
-            if (addOrFinish == 0){
-                return products;
-            }
-        } while (addOrFinish == 1);
-        return products;
-    }
-
-    private static OrderStatus getOrderStatus() {
-        int addOrFinish;
-        do {
-            System.out.println("""
-                    Statusy
-                    \t [0] OPLACONE
-                    \t [1] ANULOWANE
-                    \t [2] WYSLANE
-                    \t [3] W_PRZYGOTOWANIU""");
-
-            return switch (pickingNumber(3)) {
-                case 0 -> OrderStatus.OPLACONE;
-                case 1 -> OrderStatus.ANULOWANE;
-                case 2 -> OrderStatus.WYSLANE;
-                case 3 -> OrderStatus.W_PRZYGOTOWANIU;
-                default -> null;
-            };
-        } while (addOrFinish < 0 && addOrFinish > 3);
-
+        } while (input.isBlank());
+        return word;
     }
 }
