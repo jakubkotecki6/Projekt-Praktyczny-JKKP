@@ -4,14 +4,11 @@ import pl.sda.projektPraktyczny.models.Category;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CategoryService {
 
     public static List<Category> categories = new ArrayList<>();
-
-    public static List<Category> generateCategoriesList() {
-        return categories;
-    }
 
     public void addCategory(Category category) {
         categories.add(category);
@@ -30,12 +27,14 @@ public class CategoryService {
     }
 
     public void showCategoryById(int categoryId) {
-        for (Category categoryItem : categories) {
-            if (categoryItem.getCategoryId() == categoryId) {
-                System.out.println("Category ID: " + categoryItem.getCategoryId());
-                System.out.println("Category name: " + categoryItem.getName());
-            }
-            else System.out.println("Nie znaleziono kategorii o podanym ID");
+        Optional<Category> firstItem = categories.stream()
+                .filter(category -> category.getCategoryId() == categoryId)
+                .findFirst();
+
+        if (firstItem.isPresent()) {
+            System.out.println("Kategoria o podanym ID to: " + firstItem.get());
+        } else {
+            System.out.println("Nie znaleziono kategorii o podanym ID");
         }
     }
 }
