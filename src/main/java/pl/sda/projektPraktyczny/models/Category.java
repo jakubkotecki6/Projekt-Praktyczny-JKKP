@@ -4,33 +4,25 @@ import java.util.Objects;
 
 public class Category {
 
-    private int categoryId;
-    private int lastCategoryId = 0;
-    private String name;
+    private final int categoryId;
+    private static int lastCategoryId = 0;
+    private final String name;
 
     public Category(String name) {
         this.categoryId = ++lastCategoryId;
-        if (isValidName(name)) {
-            this.name = name;
-        } else {
+
+        if (!isValidName(name)) {
             throw new IllegalArgumentException("Nazwa nie może być pusta oraz nazwa może mieć max 50 znaków!");
         }
+        this.name = name;
     }
 
     public int getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     private boolean isValidName(String name) {
@@ -41,7 +33,6 @@ public class Category {
     public String toString() {
         return "Category{" +
                 "categoryId=" + categoryId +
-                ", lastCategoryId=" + lastCategoryId +
                 ", name='" + name + '\'' +
                 '}';
     }

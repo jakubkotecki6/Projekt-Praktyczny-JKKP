@@ -207,10 +207,6 @@ public class Menu extends OrderService {
         System.out.print("Wpisz ile masz sztuk produktu: ");
         return getIntValue();
     }
-    private static int getAmountOfProducts() {
-        System.out.print("Wpisz ile masz sztuk produktu: ");
-        return getIntValue();
-    }
 
     private static Map<Product, Integer> setProductsMap() {
         Scanner scanner = new Scanner(System.in);
