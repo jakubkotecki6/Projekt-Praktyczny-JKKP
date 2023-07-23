@@ -6,26 +6,28 @@ import pl.sda.projektPraktyczny.models.OrderStatus;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
-public class OrderService {
+
+public class OrderService implements Serializable {
     private static List<Order> orders = new ArrayList<>();
 
     public static void generateOrdersList() {
-        File ordersFile = new File("zamowienia.txt");
+        File ordersFile = new File("zamowienia");
         ordersFile.delete();
-        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("zamowienia.txt"))) {
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("zamowienia"))) {
             outputStream.writeObject(orders);
-            System.out.println("Lista zapisana do pliku zamowienia.txt");
+            System.out.println("Lista zapisana do pliku zamowienia");
         } catch (IOException e) {
             System.err.println("Wystąpił błąd podczas zapisywania do pliku - " + e.getMessage());
         }
     }
 
     public void loadOrdersFromFile() {
-        List<Order> data = null;
-        try (ObjectInputStream inputStream = new ObjectInputStream( new FileInputStream("zamowienia.txt"))) {
-            data = (List<Order>) inputStream.readObject();
-            for (Order object : data) {
+        List<Order> deserializedOrders = null;
+        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("zamowienia"))) {
+            deserializedOrders = (List<Order>) inputStream.readObject();
+            for (Order object : deserializedOrders) {
                 orders.add(object);
             }
         } catch (IOException | ClassNotFoundException e) {

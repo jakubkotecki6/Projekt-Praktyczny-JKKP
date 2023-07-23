@@ -207,6 +207,10 @@ public class Menu extends OrderService {
         System.out.print("Wpisz ile masz sztuk produktu: ");
         return getIntValue();
     }
+    private static int getAmountOfProducts() {
+        System.out.print("Wpisz ile masz sztuk produktu: ");
+        return getIntValue();
+    }
 
     private static Map<Product, Integer> setProductsMap() {
         Scanner scanner = new Scanner(System.in);
@@ -216,7 +220,7 @@ public class Menu extends OrderService {
         do {
             addOrFinish = scanner.nextInt();
             if (addOrFinish == 1) {
-                products.put(getProduct(), getIntValue());
+                products.put(getProduct(), getAmountOfProducts());
             }
             if (addOrFinish == 0) {
                 return products;
