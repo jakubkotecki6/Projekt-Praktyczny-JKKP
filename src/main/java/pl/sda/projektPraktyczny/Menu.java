@@ -15,6 +15,13 @@ import java.util.Scanner;
 import static org.apache.commons.lang3.StringUtils.isNumeric;
 
 public class Menu extends OrderService {
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final OrderService orderService = new OrderService();
+    private static final CategoryService categoryService = new CategoryService();
+    private static final ProductService productService = new ProductService();
+
+
+
     public static void main(String[] args) {
         OrderService orderService = new OrderService();
         CategoryService categoryService = new CategoryService();
@@ -36,27 +43,19 @@ public class Menu extends OrderService {
                  [0] Exit""");
 
         switch (pickingNumber(3)) {
-            case 0:
+            case 0 -> {
                 OrderService.generateOrdersList();
                 CategoryService.generateCategoriesList();
                 ProductService.generateProductsList();
-                break;
-            case 1:
-                orderMenu();
-                break;
-            case 2:
-                categoryMenu();
-                break;
-            case 3:
-                productMenu();
-                break;
+            }
+            case 1 -> orderMenu();
+            case 2 -> categoryMenu();
+            case 3 -> productMenu();
         }
     }
 
     private static void orderMenu() {
-        OrderService orderService = new OrderService();
         int pick;
-
         do {
             System.out.println("""
                     Zamówienia
@@ -91,9 +90,7 @@ public class Menu extends OrderService {
     }
 
     private static void whichRemove() {
-        OrderService orderService = new OrderService();
         int pick;
-
         do {
             System.out.println("""
                     Jak chcesz usunąć obiekt
@@ -114,9 +111,7 @@ public class Menu extends OrderService {
     }
 
     private static void categoryMenu() {
-        CategoryService categoryService = new CategoryService();
         int pick;
-
         do {
             System.out.println("""
                     Kategorie produktów
@@ -139,8 +134,6 @@ public class Menu extends OrderService {
     }
 
     private static void productMenu() {
-        ProductService productService = new ProductService();
-
         int pick;
         do {
             System.out.println("""
@@ -235,7 +228,6 @@ public class Menu extends OrderService {
     }
 
     private static Map<Product, Integer> setProductsMap() {
-        Scanner scanner = new Scanner(System.in);
         Map<Product, Integer> products = new HashMap<>();
         int addOrFinish;
         do {
@@ -252,7 +244,6 @@ public class Menu extends OrderService {
     }
 
     private static Map<Product, Integer> addProductsToOrder() {
-        OrderService orderService = new OrderService();
         orderService.showOrderByOrderNumber(getOrderNumber()).setProducts(setProductsMap());
         return null;
     }
@@ -275,7 +266,6 @@ public class Menu extends OrderService {
     }
 
     private static int pickingNumber(int numberOfOptions) {
-        Scanner scanner = new Scanner(System.in);
         int pick = -1;
         String input;
         do {
@@ -296,7 +286,6 @@ public class Menu extends OrderService {
     }
 
     private static int getIntValue() {
-        Scanner scanner = new Scanner(System.in);
         int number = 0;
         String input = null;
         do {
@@ -314,7 +303,6 @@ public class Menu extends OrderService {
     }
 
     private static double getDoubleValue() {
-        Scanner scanner = new Scanner(System.in);
         double number = 0;
         String input = null;
         do {
@@ -331,7 +319,6 @@ public class Menu extends OrderService {
     }
 
     private static String getStringValue() {
-        Scanner scanner = new Scanner(System.in);
         String word = null;
         String input;
         do {
