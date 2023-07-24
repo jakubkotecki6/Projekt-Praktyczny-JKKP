@@ -17,14 +17,17 @@ import static org.apache.commons.lang3.StringUtils.isNumeric;
 public class Menu extends OrderService {
     public static void main(String[] args) {
         OrderService orderService = new OrderService();
+        CategoryService categoryService = new CategoryService();
+        ProductService productService = new ProductService();
 
         orderService.loadOrdersFromFile();
+        categoryService.loadCategriesFromFile();
+        productService.loadProductsFromFile();
 
         mainMenu();
     }
 
     private static void mainMenu() {
-        OrderService orderService = new OrderService();
         System.out.println("""
                 Wybierz
                  [1] Zamówienia
@@ -33,10 +36,20 @@ public class Menu extends OrderService {
                  [0] Exit""");
 
         switch (pickingNumber(3)) {
-            case 0 -> OrderService.generateOrdersList();
-            case 1 -> orderMenu();
-            case 2 -> categoryMenu();
-            case 3 -> productMenu();
+            case 0:
+                OrderService.generateOrdersList();
+                CategoryService.generateCategoriesList();
+                ProductService.generateProductsList();
+                break;
+            case 1:
+                orderMenu();
+                break;
+            case 2:
+                categoryMenu();
+                break;
+            case 3:
+                productMenu();
+                break;
         }
     }
 
@@ -61,7 +74,7 @@ public class Menu extends OrderService {
             switch (pick) {
                 case 0 -> mainMenu();
                 case 1 -> orderService.showAllOrders();
-                case 2 -> System.out.println(orderService.showOrderByOrderNumber(getOrderId()));
+                case 2 -> System.out.println(orderService.showOrderByOrderNumber(getOrderNumber()));
                 case 3 -> orderService.addOrder(getOrder());
                 case 4 -> whichRemove();
                 case 5 -> System.out.println("""
@@ -69,13 +82,9 @@ public class Menu extends OrderService {
                         Pomalutku, bez pośpiechu wszystko zrobię sam.
                         Nad makietą się męczyłem ładnych parę lat,
                         Ale za to zwiedzać cudo będzie cały świat""");
-                case 6 -> orderService.changeStatusByID(getOrderId(), getOrderStatus());
-                case 7 -> orderService.showOrderStatusByID(getOrderId());
-                case 8 -> System.out.println("""
-                        Pole, pole, łyse pole, ale mam już plan.
-                        Pomalutku, bez pośpiechu wszystko zrobię sam.
-                        Nad makietą się męczyłem ładnych parę lat,
-                        Ale za to zwiedzać cudo będzie cały świat""");
+                case 6 -> orderService.changeStatusByOrderNumber(getOrderNumber(), getOrderStatus());
+                case 7 -> orderService.showOrderStatusByOrderNumber(getOrderNumber());
+                case 8 -> addProductsToOrder();
             }
         } while (pick != 0);
 
@@ -87,20 +96,20 @@ public class Menu extends OrderService {
 
         do {
             System.out.println("""
-                Jak chcesz usunąć obiekt
-                 [1] Obiekt Order
-                 [2] Numer zamówienia
-                 [3] ID zamówienia
-                 [0] Cofnij""");
+                    Jak chcesz usunąć obiekt
+                     [1] Obiekt Order
+                     [2] Numer zamówienia
+                     [3] ID zamówienia
+                     [0] Cofnij""");
 
             pick = pickingNumber(3);
             switch (pick) {
                 case 0 -> orderMenu();
                 case 1 -> orderService.removeOrder(getOrder());
-                case 2 -> orderService.removeOrderByOrderNumber(getOrderId());
+                case 2 -> orderService.removeOrderByOrderNumber(getOrderNumber());
                 case 3 -> orderService.removeOrderByOrderId(getOrderId());
             }
-        }while (pick != 0);
+        } while (pick != 0);
 
     }
 
@@ -156,7 +165,6 @@ public class Menu extends OrderService {
 
 
     private static Order getOrder() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Wpisz dane do zamówienia");
         return new Order(getOrderSum(), getFirstName(), getSurname(), getAdress(), getOrderStatus(), setProductsMap());
     }
@@ -182,7 +190,6 @@ public class Menu extends OrderService {
     }
 
     private static Product getProduct() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Wpisz dane produktu: ");
         return new Product(getPrice(), getProductName(), getCategory(), getAmountOfProducts());
     }
@@ -208,6 +215,11 @@ public class Menu extends OrderService {
     }
 
     private static int getOrderId() {
+        System.out.print("Podaj ID zamówienia: ");
+        return getIntValue();
+    }
+
+    private static int getOrderNumber() {
         System.out.print("Podaj numer zamówienia: ");
         return getIntValue();
     }
@@ -226,8 +238,8 @@ public class Menu extends OrderService {
         Scanner scanner = new Scanner(System.in);
         Map<Product, Integer> products = new HashMap<>();
         int addOrFinish;
-        System.out.println("aby dodać produkt do mapy wpisz 1 jeśli chcesz zakończyć dodawanie produktów wpisz 0");
         do {
+            System.out.println("aby dodać produkt do mapy wpisz 1 jeśli chcesz zakończyć dodawanie produktów wpisz 0");
             addOrFinish = scanner.nextInt();
             if (addOrFinish == 1) {
                 products.put(getProduct(), getAmountOfProducts());
@@ -237,6 +249,12 @@ public class Menu extends OrderService {
             }
         } while (addOrFinish == 1);
         return products;
+    }
+
+    private static Map<Product, Integer> addProductsToOrder() {
+        OrderService orderService = new OrderService();
+        orderService.showOrderByOrderNumber(getOrderNumber()).setProducts(setProductsMap());
+        return null;
     }
 
     private static OrderStatus getOrderStatus() {
