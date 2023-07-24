@@ -3,10 +3,8 @@ package pl.sda.projektPraktyczny.models;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
-import java.io.Serializable;
 
-
-public class Order implements Serializable{
+public class Order{
     private static int counter = 0;
     private final int orderID;
     private final String orderNumber;
