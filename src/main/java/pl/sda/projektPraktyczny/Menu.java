@@ -21,7 +21,7 @@ public class Menu extends OrderService {
         ProductService productService = new ProductService();
 
         orderService.loadOrdersFromFile();
-        categoryService.loadCategriesFromFile();
+        categoryService.loadCategoriesFromFile();
         productService.loadProductsFromFile();
 
         mainMenu();
