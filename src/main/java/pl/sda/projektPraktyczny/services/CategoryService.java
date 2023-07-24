@@ -3,12 +3,17 @@ package pl.sda.projektPraktyczny.services;
 import pl.sda.projektPraktyczny.models.Category;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 public class CategoryService {
 
     public static List<Category> categories = new ArrayList<>();
+
+    public static List<Category> getCategories() {
+        return categories;
+    }
 
     public void addCategory(Category category) {
         categories.add(category);

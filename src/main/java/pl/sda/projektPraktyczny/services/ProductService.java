@@ -3,12 +3,16 @@ package pl.sda.projektPraktyczny.services;
 import pl.sda.projektPraktyczny.models.Product;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public final class ProductService {
 
-    private List<Product> products = new ArrayList<>();
+    private final List<Product> products = new ArrayList<>();
 
+    public List<Product> getProducts() {
+        return products;
+    }
 
     public void addProduct(Product productToAdd) {
         products.add(productToAdd);
@@ -35,5 +39,4 @@ public final class ProductService {
             }
         }
     }
-
 }
