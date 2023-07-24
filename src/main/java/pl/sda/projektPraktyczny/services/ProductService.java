@@ -16,6 +16,7 @@ public final class ProductService {
 
     private static List<Product> products = new ArrayList<>();
 
+
     public static void generateProductsList() {
         Gson gson = new GsonBuilder().enableComplexMapKeySerialization().setPrettyPrinting().create();
         try (Writer writer = new FileWriter("ProductsDB.JSON")) {

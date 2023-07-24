@@ -15,6 +15,7 @@ public class CategoryService {
 
     public static List<Category> categories = new ArrayList<>();
 
+
     public static void generateCategoriesList() {
         Gson gson = new GsonBuilder().enableComplexMapKeySerialization().setPrettyPrinting().create();
         try (Writer writer = new FileWriter("CategoriesDB.JSON")) {

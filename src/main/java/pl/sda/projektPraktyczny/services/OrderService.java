@@ -15,6 +15,7 @@ import java.util.List;
 public class OrderService {
     private static List<Order> orders = new ArrayList<>();
 
+
     public static void generateOrdersList() {
         Gson gson = new GsonBuilder().enableComplexMapKeySerialization().setPrettyPrinting().create();
         try (Writer writer = new FileWriter("OrdersDB.JSON")) {
