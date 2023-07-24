@@ -36,20 +36,14 @@ public class Menu extends OrderService {
                  [0] Exit""");
 
         switch (pickingNumber(3)) {
-            case 0:
+            case 0 -> {
                 OrderService.generateOrdersList();
                 CategoryService.generateCategoriesList();
                 ProductService.generateProductsList();
-                break;
-            case 1:
-                orderMenu();
-                break;
-            case 2:
-                categoryMenu();
-                break;
-            case 3:
-                productMenu();
-                break;
+            }
+            case 1 -> orderMenu();
+            case 2 -> categoryMenu();
+            case 3 -> productMenu();
         }
     }
 
@@ -84,7 +78,7 @@ public class Menu extends OrderService {
                         Ale za to zwiedzać cudo będzie cały świat""");
                 case 6 -> orderService.changeStatusByOrderNumber(getOrderNumber(), getOrderStatus());
                 case 7 -> orderService.showOrderStatusByOrderNumber(getOrderNumber());
-                case 8 -> addProductsToOrder();
+                case 8 -> orderService.addProductByOrderNumber();
             }
         } while (pick != 0);
 
@@ -191,7 +185,7 @@ public class Menu extends OrderService {
 
     private static Product getProduct() {
         System.out.println("Wpisz dane produktu: ");
-        return new Product(getPrice(), getProductName(), getCategory(), getAmountOfProducts());
+        return new Product(getPrice(), getProductName(), getCategory(), getNumberOfProducts());
     }
 
     private static double getPrice() {
@@ -209,7 +203,7 @@ public class Menu extends OrderService {
         return new Category(getStringValue());
     }
 
-    private static int getAmountOfProducts() {
+    private static int getNumberOfProducts() {
         System.out.print("Wpisz ile masz sztuk produktu: ");
         return getIntValue();
     }
@@ -242,7 +236,7 @@ public class Menu extends OrderService {
             System.out.println("aby dodać produkt do mapy wpisz 1 jeśli chcesz zakończyć dodawanie produktów wpisz 0");
             addOrFinish = scanner.nextInt();
             if (addOrFinish == 1) {
-                products.put(getProduct(), getAmountOfProducts());
+                products.put(getProduct(), getNumberOfProducts());
             }
             if (addOrFinish == 0) {
                 return products;
@@ -251,11 +245,8 @@ public class Menu extends OrderService {
         return products;
     }
 
-    private static Map<Product, Integer> addProductsToOrder() {
-        OrderService orderService = new OrderService();
-        orderService.showOrderByOrderNumber(getOrderNumber()).setProducts(setProductsMap());
-        return null;
-    }
+
+
 
     private static OrderStatus getOrderStatus() {
         System.out.println("""

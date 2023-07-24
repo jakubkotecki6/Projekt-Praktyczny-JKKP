@@ -139,8 +139,6 @@ public class Order{
         }
     }
 
-
-
     private String generateOrderNumber(){
         Random random = new Random();
         return String.valueOf(99999999 - random.nextInt(99999999));

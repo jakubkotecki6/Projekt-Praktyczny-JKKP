@@ -5,12 +5,12 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import pl.sda.projektPraktyczny.models.Order;
 import pl.sda.projektPraktyczny.models.OrderStatus;
+import pl.sda.projektPraktyczny.models.Product;
 
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class OrderService {
     private static List<Order> orders = new ArrayList<>();
@@ -27,7 +27,8 @@ public class OrderService {
     public void loadOrdersFromFile() {
         try (Reader reader = new FileReader("OrdersDB.JSON")) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            Type type = new TypeToken<ArrayList<Order>>(){}.getType();
+            Type type = new TypeToken<ArrayList<Order>>() {
+            }.getType();
             orders = gson.fromJson(reader, type);
         } catch (IOException e) {
             System.err.println("Wystąpił błąd podczas odczytywania listy zamówień " + e.getMessage());
@@ -67,6 +68,17 @@ public class OrderService {
         }
         notFound(found);
     }
+
+    private Order findOrder(String orderNumber) {
+        for (Order order : orders) {
+            if (order.getOrderNumber().equals(orderNumber)) {
+                return order;
+            }
+        }
+        return null;
+    }
+
+
 
     public void showAllOrders() {
         boolean found = false;
@@ -109,6 +121,19 @@ public class OrderService {
         }
         notFound(found);
     }
+
+    /*public Product addProductByOrderNumber(String orderNumber, Product product){
+        ProductService productService = new ProductService();
+        boolean found = false;
+        for (Order order : orders) {
+            if (order.getOrderNumber().equals(orderNumber)) {
+                productService.addpro
+            }
+        }
+        notFound(found);
+        return product;
+
+    }*/
 
     public void notFound(boolean found) {
         if (!found) {
