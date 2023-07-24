@@ -4,7 +4,9 @@ import pl.sda.projektPraktyczny.models.Category;
 import pl.sda.projektPraktyczny.models.Order;
 import pl.sda.projektPraktyczny.models.OrderStatus;
 import pl.sda.projektPraktyczny.models.Product;
+import pl.sda.projektPraktyczny.services.CategoryService;
 import pl.sda.projektPraktyczny.services.OrderService;
+import pl.sda.projektPraktyczny.services.ProductService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -59,7 +61,7 @@ public class Menu extends OrderService {
             switch (pick) {
                 case 0 -> mainMenu();
                 case 1 -> orderService.showAllOrders();
-                case 2 -> orderService.showOrderByOrderNumber(getIntValue());
+                case 2 -> System.out.println(orderService.showOrderByOrderNumber(getOrderId()));
                 case 3 -> orderService.addOrder(getOrder());
                 case 4 -> whichRemove();
                 case 5 -> System.out.println("""
@@ -67,8 +69,8 @@ public class Menu extends OrderService {
                         Pomalutku, bez pośpiechu wszystko zrobię sam.
                         Nad makietą się męczyłem ładnych parę lat,
                         Ale za to zwiedzać cudo będzie cały świat""");
-                case 6 -> orderService.changeStatusByID(getIntValue(), getOrderStatus());
-                case 7 -> orderService.showOrderStatusByID(getIntValue());
+                case 6 -> orderService.changeStatusByID(getOrderId(), getOrderStatus());
+                case 7 -> orderService.showOrderStatusByID(getOrderId());
                 case 8 -> System.out.println("""
                         Pole, pole, łyse pole, ale mam już plan.
                         Pomalutku, bez pośpiechu wszystko zrobię sam.
@@ -81,79 +83,76 @@ public class Menu extends OrderService {
 
     private static void whichRemove() {
         OrderService orderService = new OrderService();
+        int pick;
 
-        System.out.println("""
+        do {
+            System.out.println("""
                 Jak chcesz usunąć obiekt
                  [1] Obiekt Order
                  [2] Numer zamówienia
                  [3] ID zamówienia
                  [0] Cofnij""");
 
-        switch (pickingNumber(3)) {
-            case 0 -> orderMenu();
-            case 1 -> orderService.removeOrder(getOrder());
-            case 2 -> orderService.removeOrderByOrderNumber(getIntValue());
-            case 3 -> orderService.removeOrderByOrderId(getIntValue());
-        }
+            pick = pickingNumber(3);
+            switch (pick) {
+                case 0 -> orderMenu();
+                case 1 -> orderService.removeOrder(getOrder());
+                case 2 -> orderService.removeOrderByOrderNumber(getOrderId());
+                case 3 -> orderService.removeOrderByOrderId(getOrderId());
+            }
+        }while (pick != 0);
+
     }
 
     private static void categoryMenu() {
-        System.out.println("""
-                Kategorie produktów
-                \t [1] Lista kategorii
-                \t [2] Konkretna kategoria
-                \t [3] Dodaj kategorie
-                \t [4] Usuń kategorie
-                \t [0] Cofnij""");
+        CategoryService categoryService = new CategoryService();
+        int pick;
 
-        switch (pickingNumber(4)) {
-            case 0:
-                mainMenu();
-                break;
-            case 1:
+        do {
+            System.out.println("""
+                    Kategorie produktów
+                    \t [1] Lista kategorii
+                    \t [2] Konkretna kategoria
+                    \t [3] Dodaj kategorie
+                    \t [4] Usuń kategorie
+                    \t [0] Cofnij""");
 
-                break;
-            case 2:
+            pick = pickingNumber(4);
+            switch (pick) {
+                case 0 -> mainMenu();
+                case 1 -> categoryService.showAllCategories();
+                case 2 -> categoryService.showCategoryById(getCategoryId());
+                case 3 -> categoryService.addCategory(getCategory());
+                case 4 -> categoryService.removeCategory(getCategory());
+            }
+        } while (pick != 0);
 
-                break;
-            case 3:
-
-                break;
-            case 4:
-
-                break;
-        }
     }
 
     private static void productMenu() {
+        ProductService productService = new ProductService();
 
-        System.out.println("""
-                Produkty
-                \t [1] Lista produktów
-                \t [2] Konkretny produkt
-                \t [3] Dodaj produkt
-                \t [4] Usuń produkt
-                \t [0] Cofnij""");
+        int pick;
+        do {
+            System.out.println("""
+                    Produkty
+                    \t [1] Lista produktów
+                    \t [2] Konkretny produkt
+                    \t [3] Dodaj produkt
+                    \t [4] Usuń produkt
+                    \t [0] Cofnij""");
 
-        switch (pickingNumber(4)) {
-            case 0:
-                mainMenu();
-                break;
-            case 1:
+            pick = pickingNumber(3);
+            switch (pick) {
+                case 0 -> mainMenu();
+                case 1 -> productService.showAllProducts();
+                case 2 -> productService.showProductById(getProductId());
+                case 3 -> productService.addProduct(getProduct());
+                case 4 -> productService.removeProduct(getProduct());
+            }
+        } while (pick != 0);
 
-                break;
-            case 2:
-
-                break;
-            case 3:
-
-                break;
-            case 4:
-
-                break;
-        }
     }
-
 
 
     private static Order getOrder() {
@@ -185,7 +184,7 @@ public class Menu extends OrderService {
     private static Product getProduct() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Wpisz dane produktu: ");
-        return new Product(getPrice(), getProductName(), getCategoryName(), getAmountOfProducts());
+        return new Product(getPrice(), getProductName(), getCategory(), getAmountOfProducts());
     }
 
     private static double getPrice() {
@@ -198,13 +197,28 @@ public class Menu extends OrderService {
         return getStringValue();
     }
 
-    private static Category getCategoryName() {
+    private static Category getCategory() {
         System.out.print("Wpisz nazwę kategorii: ");
         return new Category(getStringValue());
     }
 
     private static int getAmountOfProducts() {
         System.out.print("Wpisz ile masz sztuk produktu: ");
+        return getIntValue();
+    }
+
+    private static int getOrderId() {
+        System.out.print("Podaj numer zamówienia: ");
+        return getIntValue();
+    }
+
+    private static int getProductId() {
+        System.out.print("Podaj numer produktu: ");
+        return getIntValue();
+    }
+
+    private static int getCategoryId() {
+        System.out.print("Podaj numer kategorii: ");
         return getIntValue();
     }
 
